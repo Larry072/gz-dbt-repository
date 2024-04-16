@@ -21,7 +21,12 @@ sources:
             description: the quantity of products purchased for this order
             tests:
               - unique:
-                  column_name: "(orders_id || '-' ||)" 
+                  column_name: "(orders_id || '-' ||)"
+                  ## OR ##
+              - dbt_utils.unique_combination_of_columns
+                  combination_of_columns
+                  - orders_id
+                  - pdt_id
       - name: product
         identifier: raw_gz_product
         description: products of greenweez
@@ -31,7 +36,7 @@ sources:
             tests:
               - unique:
               - not_null:
-                  
+
           - name: purchase_price
             description: the purchase price of the product
       - name: ship
@@ -39,16 +44,14 @@ sources:
         description: ship of Greenweez
         columns:
           - name: orders_id
-            description: primary key of the table 
+            description: primary key of the table
             tests:
               - unique:
               - not_null:
-                  
+
           - name: shipping_fee
-            description: payment made by customer for shipping 
+            description: payment made by customer for shipping
           - name: log_cost
-            description: the cost of preparing the parcel in the warehouse 
+            description: the cost of preparing the parcel in the warehouse
           - name: ship_cost
-            description: the shipping cost paid by greenweez to the carrier / transporter 
-      
-     
+            description: the shipping cost paid by greenweez to the carrier / transporter
